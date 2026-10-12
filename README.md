@@ -80,3 +80,23 @@ N → M: 90 → 10
 ```
 
 M=10 нь дээр тодорхойлсон category-partition сонголтын дүрмээр үүсэх үндсэн тестийн хүрээний тоо, PICT-ийн pairwise гаралтын мөрийн тоо биш. A3-т шаардлагатай давхар алдааны тохиолдлыг энэ тусгаарласан багцад нэмэлтээр оруулна; нэг ийм мөр нэмбэл A3 хүснэгт нийт 11 мөртэй болно. Давхар алдааны нэмэлт мөр нь үндсэн [ERROR] тусгаарлах дүрмийн гаднах зориудын тест юм.
+
+## A3. Спецификацийн хүснэгт
+
+Бүх дүнг эх дансны MNT валют руу хөрвүүлсний дараа шалгана. Хүснэгтийн эхний 10 мөр нь A2-ын үндсэн багц, 11-р мөр нь давуу эрэмбийг шалгах нэмэлт тест.
+
+| №   | From    | To         | Amount             | Currency  | Setup / бодит дүн                                        | Хүлээгдэх үр дүн       |
+| --- | ------- | ---------- | ------------------ | --------- | -------------------------------------------------------- | ---------------------- |
+| A01 | Valid   | Valid      | Normal             | Same      | A→B, 10,000 MNT                                          | 201 OK                 |
+| A02 | Valid   | Valid      | Normal             | Different | A→B, 5 USD → 10,000 MNT                                  | 201 OK                 |
+| A03 | Frozen  | Valid      | Normal             | Same      | F→B, 10,000 MNT                                          | 200 ERROR_FROZEN       |
+| A04 | Missing | Valid      | Normal             | Same      | X→B, 10,000 MNT                                          | 200 ERROR_NO_FROM      |
+| A05 | Valid   | Missing    | Normal             | Same      | A→X, 10,000 MNT                                          | 200 ERROR_NO_TO        |
+| A06 | Valid   | SameAsFrom | Normal             | Same      | A→A, 10,000 MNT                                          | 200 ERROR_SAME_ACCOUNT |
+| A07 | Valid   | Valid      | BadAmount          | Same      | A→B, 0 MNT                                               | 200 ERROR_BAD_AMOUNT   |
+| A08 | Valid   | Valid      | OverBalance        | Same      | A→B, 100,001 MNT; үлдэгдэл 100,000, үлдсэн лимит 150,000 | 200 ERROR_INSUFFICIENT |
+| A09 | Valid   | Valid      | OverLimit          | Same      | A→B, 150,001 MNT; үлдэгдэл 300,000, үлдсэн лимит 150,000 | 200 ERROR_LIMIT        |
+| A10 | Valid   | Valid      | AtBalance [SINGLE] | Same      | A→B, 100,000 MNT; үлдэгдэлтэй тэнцүү                     | 201 OK                 |
+| A11 | Frozen  | Missing    | BadAmount          | Different | F→X, 0 USD; гурван алдаа зэрэг                           | 200 ERROR_FROZEN       |
+
+A11-д Frozen нь Missing-to болон BadAmount-аас өмнө шалгагдана.
