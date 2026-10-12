@@ -100,3 +100,22 @@ M=10 нь дээр тодорхойлсон category-partition сонголты�
 | A11 | Frozen  | Missing    | BadAmount          | Different | F→X, 0 USD; гурван алдаа зэрэг                           | 200 ERROR_FROZEN       |
 
 A11-д Frozen нь Missing-to болон BadAmount-аас өмнө шалгагдана.
+
+## B1. Браузерын covering array
+
+PICT эх код нь репогоос гадна `~/tools/pict`-д байна. Эх кодын commit ба хэрэглээний зааврын нотолгоо: [results/pict-build.txt](results/pict-build.txt).
+
+```sh
+pict browser.model | tee results/browser-2way.txt
+pict browser.model /o:3 > results/browser-3way.txt
+tail -n +2 results/browser-2way.txt | wc -l   # мөрийн тоо (эхний мөр нь толгой)
+tail -n +2 results/browser-3way.txt | wc -l
+```
+
+| Арга          | Файл                     | Тестийн мөр (толгойг хассан) | Бүрэн 144 хослолтой харьцуулсан хувь |
+| ------------- | ------------------------ | ---------------------------: | -----------------------------------: |
+| 2-way         | results/browser-2way.txt |                           10 |                                6.94% |
+| 3-way         | results/browser-3way.txt |                           20 |                               13.89% |
+| Бүрэн олонлог | 3 × 3 × 2 × 2 × 2 × 2    |                          144 |                                 100% |
+
+Лекцийн гараар хийсэн 9 мөртэй харьцуулахад PICT-ийн 2-way нь 10 мөр буюу нэгээр олон байна. PICT greedy алгоритмаар тухайн алхамд хамралтыг нэмэх мөр сонгодог тул глобал хамгийн цөөн мөрийг заавал олдоггүй. 3-way нь бүх гурвалын хамралтыг шаардаж 20 мөр болсон ч бүрэн 144 хослолыг бүгдийг шалгахгүй.
