@@ -1,0 +1,8 @@
+# transfer-neg.model — [ERROR] утгуудыг ~-ээр тэмдэглэ
+From:     Valid, ~Frozen, ~Missing
+To:       Valid, ~Missing, ~SameAsFrom
+Amount:   Normal, ~BadAmount, AtBalance, ~OverBalance, ~OverLimit
+Currency: Same, Different
+
+# AtBalance SINGLE: хүчинтэй дансууд, ижил валюттай нэг тест.
+IF [Amount] = "AtBalance" THEN [From] = "Valid" AND [To] = "Valid" AND [Currency] = "Same";

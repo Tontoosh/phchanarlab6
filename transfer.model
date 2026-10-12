@@ -1,0 +1,9 @@
+From:     Valid, Frozen, Missing
+To:       Valid, Missing, SameAsFrom
+Amount:   BadAmount, Normal, AtBalance, OverBalance, OverLimit
+Currency: Same, Different
+
+# Хязгаарлалт (өөрийнхөө A2-ийн дүгнэлтээр!):
+IF [From] <> "Valid" THEN [To] = "Valid" AND [Amount] = "Normal" AND [Currency] = "Same";
+IF [To] <> "Valid" THEN [From] = "Valid" AND [Amount] = "Normal" AND [Currency] = "Same";
+IF [Amount] <> "Normal" THEN [From] = "Valid" AND [To] = "Valid" AND [Currency] = "Same";
